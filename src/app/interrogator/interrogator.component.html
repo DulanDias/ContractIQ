@@ -1,3 +1,33 @@
+<div class="interrogator-upload-container">
+    <h2>Upload Your Contract Document and Ask a Question 📄🤖</h2>
+  
+    <!-- Drag and Drop area for uploading a docx file -->
+    <div
+      class="file-drop-area"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+      [class.dragover]="isDragging"
+    >
+      <p *ngIf="!selectedFile">Drag & Drop your .docx file here or <label for="fileInput" class="upload-label">browse</label></p>
+      <p *ngIf="selectedFile">{{ selectedFile?.name }}</p>
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden />
+    </div>
+  
+    <!-- Query input and submit button -->
+    <div class="query-input">
+      <input type="text" [(ngModel)]="query" placeholder="Enter your question here..." />
+      <button (click)="onSubmit()">Submit</button>
+    </div>
+  
+    <!-- Show the result after the backend response -->
+    <div *ngIf="result" class="result-section">
+      <h3>Answer:</h3>
+      <p>{{ result }}</p>
+    </div>
+  </div>
+  
+
 <div class="interrogator-content">
     <p>
       For this problem, we implemented a <strong>Contract Interrogator</strong> that takes a legal contract in
