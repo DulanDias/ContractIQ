@@ -1,0 +1,46 @@
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    text-align: center;
+  }
+  
+  .gradient-text {
+    font-size: 6rem;
+    font-weight: bold;
+    background: linear-gradient(
+      90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+  }
+  
+  .not-found-message {
+    font-size: 1.5rem;
+    color: var(--gray-700); /* Match other text colors in your theme */
+    margin-top: 1rem;
+  }
+  
+  .home-link {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--bright-blue); /* Make the link color stand out */
+    border: 2px solid var(--bright-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .home-link:hover {
+    background: var(--bright-blue);
+    color: white;
+  }
+  
