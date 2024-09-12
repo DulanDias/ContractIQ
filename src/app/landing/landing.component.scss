@@ -1,0 +1,45 @@
+.landing-container {
+    text-align: center;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .app-name {
+    font-weight: bold;
+    background: linear-gradient(90deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .intro-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .challenge-section {
+    margin: 2rem 0;
+    text-align: left;
+  }
+  
+  h1, h2, h3 {
+    color: #333;
+  }
+  
+  ul {
+    text-align: left;
+    margin: 1rem 0;
+  }
+  
+  ul li {
+    margin-bottom: 1rem;
+  }
+  
+  .footer-text {
+    margin-top: 3rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #6200ea;
+  }
+  

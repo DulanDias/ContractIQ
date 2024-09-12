@@ -1,0 +1,93 @@
+<div class="landing-container">
+    <h3>Assignment Solution: <span class="app-name">ContractIQ</span> 📄</h3>
+    <p class="intro-text">
+      This page documents the solution to the three challenges provided. Each problem is solved using custom techniques and integrated into the ContractIQ app, which is designed to interrogate legal contracts using Natural Language Processing (NLP) and provide key information extraction.
+    </p>
+  
+    <!-- Challenge 1: RAG Program for Contract Interrogation -->
+    <div class="challenge-section">
+      <h2>1. Legal Contract Interrogation with Retrieval-Augmented Generation (RAG) 🧠</h2>
+      <p>
+        The first challenge involved writing a Python program that uses RAG to interrogate legal contracts in `.docx` format. The goal was to answer natural language queries using the contract as the primary source of information.
+      </p>
+  
+      <h3>Key Requirements:</h3>
+      <ul>
+        <li>Implemented at least two techniques to mitigate hallucinations.</li>
+        <li>Custom chunking and parsing techniques used without leveraging external abstractions such as Langchain.</li>
+        <li>Query expansion/transformation technique implemented to ensure robustness in answering questions.</li>
+        <li>Summary of potential hybrid search paradigm using both dense and sparse techniques for a production use case.</li>
+      </ul>
+  
+      <h3>Solution Overview:</h3>
+      <p>
+        The solution leverages the OpenAI API for text completion, with custom chunking of the contract to ensure effective retrieval of information. To mitigate hallucinations, we applied two specific techniques:
+      </p>
+      <ul>
+        <li><strong>Selective Chunking:</strong> We break down the contract into smaller sections based on logical sections (e.g., clauses, paragraphs) and provide context-aware queries to avoid irrelevant information from being generated.</li>
+        <li><strong>Cross-Verification:</strong> Each generated response is verified against multiple contract sections to ensure consistency and reduce hallucination risks.</li>
+      </ul>
+      <p>
+        Query expansion was implemented using synonym matching and phrase rewording, ensuring that a wider range of questions can be effectively answered. In a production use case, we would also explore hybrid search paradigms that combine **dense retrieval** (for semantic search) with **sparse retrieval** (for keyword-based precision) to improve robustness and accuracy.
+      </p>
+    </div>
+  
+    <!-- Challenge 2: LLM for PDF Contract Information Extraction -->
+    <div class="challenge-section">
+      <h2>2. Contract Information Extraction Using LLM 📑</h2>
+      <p>
+        The second challenge was to extract three key pieces of information from a contract in PDF form: the effective date, governing law, and parties involved. This was accomplished using a Language Learning Model (LLM).
+      </p>
+  
+      <h3>Key Requirements:</h3>
+      <ul>
+        <li>Extracted the effective date, governing law, and the parties involved in the contract.</li>
+        <li>Used function calling/tool use for information extraction without relying on structured outputs like JSON.</li>
+      </ul>
+  
+      <h3>Solution Overview:</h3>
+      <p>
+        The solution used an LLM with function-calling capabilities to extract specific information. The program read the contract text, identified key sections based on predefined patterns (e.g., regex for dates), and extracted the relevant information:
+      </p>
+      <ul>
+        <li><strong>Effective Date:</strong> Detected using date pattern matching and contextual indicators.</li>
+        <li><strong>Governing Law:</strong> Extracted from sections labeled "Governing Law" or similar headings.</li>
+        <li><strong>Parties:</strong> Identified using common contractual language, including terms like "Party A" or "Party B."</li>
+      </ul>
+      <p>
+        The function-calling method allowed for custom logic to be applied based on the contract’s text, ensuring accurate extraction without relying on rigid structures.
+      </p>
+    </div>
+  
+    <!-- Challenge 3: UI Development -->
+    <div class="challenge-section">
+      <h2>3. UI Development for Contract Analysis 🖥️</h2>
+      <p>
+        The third challenge was to develop a UI for either problem 1 or 2 using JavaScript or TypeScript. The UI provides an intuitive interface for users to interact with the program.
+      </p>
+  
+      <h3>Key Requirements:</h3>
+      <ul>
+        <li>Developed a UI using HTML, CSS, and JS/TS (or React).</li>
+        <li>Provided an overview of backend/frontend integration in a production environment.</li>
+      </ul>
+  
+      <h3>Solution Overview:</h3>
+      <p>
+        The UI was developed using Angular, allowing users to upload contracts, extract information, or interrogate contracts in natural language. Although full integration between backend and frontend was not required, in a production environment, the backend would process contracts using the Python programs, and the UI would be responsible for delivering results to the user.
+      </p>
+      <p>
+        The main concerns in a production environment would be:
+      </p>
+      <ul>
+        <li><strong>Information Security:</strong> Secure API endpoints, token-based authentication, and encrypted storage of contracts to prevent data breaches.</li>
+        <li><strong>Scalability:</strong> Load balancing and horizontal scaling of the backend services to handle large volumes of contracts.</li>
+        <li><strong>Latency Optimization:</strong> Using server-side caching and efficient data retrieval strategies to minimize latency in contract analysis.</li>
+      </ul>
+    </div>
+  
+    <p class="footer-text">
+      This landing page provides a full overview of the solution for the assignment, detailing how each problem was addressed. Please feel free to navigate the app to see the solution in action! 🚀
+    </p>
+  </div>
+  
