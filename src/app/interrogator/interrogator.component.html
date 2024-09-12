@@ -1,6 +1,12 @@
 <div class="interrogator-upload-container">
     <h2>Upload Your Contract Document and Ask a Question 📄🤖</h2>
   
+    <!-- Loading overlay -->
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  
     <!-- Drag and Drop area for uploading a docx file -->
     <div
       class="file-drop-area"
@@ -27,7 +33,6 @@
       <p>{{ result }}</p>
     </div>
   </div>
-  
   
 
 <div class="interrogator-content">
@@ -131,16 +136,29 @@
         The retrieved chunks are sent to the language model to generate the final answer. Here's how we do it:
       </p>
       <pre><code class="code-block">
-  def generate_answer(query, relevant_chunks):
-      context = "\n".join(relevant_chunks)
-      prompt = f"Context: {{ '{' }}context{{ '}' }}\n\nQuestion: {{ '{' }}query{{ '}' }}\nAnswer:"
-      response = openai.Completion.create(
-          engine="text-davinci-003",
-          prompt=prompt,
-          max_tokens=150,
-          temperature=0.2
-      )
-      return response.choices[0].text.strip()
+        def generate_answer(query, relevant_chunks):
+        """
+        Generate an answer using the retrieved relevant chunks as context for the language model.
+        """
+        # Combine the relevant chunks into a single context
+        context = "\n".join(relevant_chunks)
+    
+        # Construct the prompt with the question and context
+        prompt = f"Context: {{ '{' }}context{{ '}' }}\n\nQuestion: {{ '{' }}query{{ '}' }}\nAnswer:"
+    
+        # Use the latest API format
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo", 
+            messages=[
+            {{ '{' }}"role": "system", "content": "You are a helpful legal assistant."{{ '}' }},
+            {{ '{' }}"role": "user", "content": prompt{{ '}' }}
+            ],
+            max_tokens=150,
+            temperature=0.2,  # Lower temperature to reduce hallucinations
+        )
+    
+        # Return the model's answer
+        return response.choices[0].message.content
       </code></pre>
       <p>We use a low temperature to reduce hallucinations, ensuring the model sticks to the facts provided in the contract.</p>
     </div>

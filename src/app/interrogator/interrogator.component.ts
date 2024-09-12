@@ -20,6 +20,7 @@ export class InterrogatorComponent {
   query: string = '';
   result: string | null = null;
   isDragging: boolean = false;
+  loading: boolean = false; 
 
   constructor(private interrogatorService: InterrogatorService) {}
 
@@ -47,13 +48,18 @@ export class InterrogatorComponent {
 
   onSubmit(): void {
     if (this.selectedFile && this.query) {
+
+      this.loading = true;
+
       this.interrogatorService.interrogateDocument(this.selectedFile, this.query).subscribe(
         (response) => {
           this.result = response.answer;
+          this.loading = false;
         },
         (error) => {
           console.error('Error:', error);
           this.result = 'Error processing your request.';
+          this.loading = false;
         }
       );
     } else {

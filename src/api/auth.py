@@ -8,7 +8,7 @@ from passlib.context import CryptContext
 # Secret key to encode and decode JWTs (should be kept secret)
 SECRET_KEY = "contract-iq"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
