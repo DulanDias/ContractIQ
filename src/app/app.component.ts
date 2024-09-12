@@ -9,9 +9,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   imports: [
+    CommonModule,      
     FormsModule,
     RouterModule,
-    CommonModule
   ]
 })
 export class AppComponent {
@@ -22,12 +22,18 @@ export class AppComponent {
 
   constructor(private router: Router) {}
 
-  // Simulate login logic
   onLogin() {
-    if (this.username === 'admin' && this.password === 'password') {
+    if (this.username === 'admin' && this.password === 'root') {
       this.isAuthenticated = true;
+      this.router.navigate(['/']);
     } else {
       alert('Invalid credentials!');
     }
+  }
+
+  onLogout() {
+    this.isAuthenticated = false;
+    this.username = '';
+    this.password = '';
   }
 }

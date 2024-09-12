@@ -1,38 +1,47 @@
 <main class="main">
   <div class="content">
     <div class="left-side">
-      <h1>Hello, <span class="app-title">{{ title }}</span></h1>
+      <h1>Hello 👋 from <span class="app-title">{{ title }}</span></h1>
       <p>– where your contracts get smarter, faster, and legally sharper! 🔥💼</p>
     </div>
+    
     <div class="divider" role="separator" aria-label="Divider"></div>
+    
     <div class="right-side">
       <!-- Show login form if not authenticated -->
       <div *ngIf="!isAuthenticated" class="login-container">
-        <form class="login-form" (submit)="onLogin()">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" [(ngModel)]="username" name="username" required />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" [(ngModel)]="password" name="password" required />
-          </div>
-          <button type="submit" class="pill login-button">Login</button>
-        </form>
+        <div class="login-card">
+          <form (submit)="onLogin()" autocomplete="off">
+            <div class="form-group">
+              <input class="pill-input" type="text" placeholder="Username" [(ngModel)]="username" name="username" autocomplete="off" required />
+            </div>
+            
+            <div class="form-group">
+              <input class="pill-input" type="password" placeholder="Password" [(ngModel)]="password" name="password" autocomplete="off" required />
+            </div>
+            
+
+            <!-- Login button with pill styling -->
+            <button  class="pill" type="submit">
+              Sign In 🔓
+            </button>
+          </form>
+        </div>
       </div>
       
 
-      <!-- Show buttons after successful login -->
-      <div *ngIf="isAuthenticated" class="pill-group">
-        <a class="pill" [routerLink]="['/extractor']">
-          <span>Extractor</span>
-        </a>
-        <a class="pill" [routerLink]="['/interrogater']">
-          <span>Interrogator</span>
-        </a>
+      <!-- Show logout and tool selector after successful login -->
+      <div *ngIf="isAuthenticated" class="authenticated-section">
+        <button mat-raised-button class="pill logout-button" (click)="onLogout()">Sign Out</button>
+        
       </div>
     </div>
   </div>
 </main>
 
 <router-outlet></router-outlet>
+
+<!-- Footer fixed at the bottom of the screen -->
+<footer class="footer">
+  <p>Made with ❤️ by Dulan S. Dias, 2024</p>
+</footer>
