@@ -1,0 +1,66 @@
+.interrogator-content {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+  }
+  
+  .step-section {
+    margin-bottom: 2rem;
+  
+    h2 {
+      font-size: 1.75rem;
+      color: var(--electric-violet);
+      margin-bottom: 0.5rem;
+    }
+  
+    p {
+      font-size: 1rem;
+      color: var(--gray-700);
+    }
+  
+    pre {
+      background-color: #f1f1f1;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+  
+      code {
+        font-family: "Courier New", Courier, monospace;
+      }
+    }
+  }
+  
+  .final-summary {
+    background: var(--red-to-pink-to-purple-horizontal-gradient);
+    padding: 1rem;
+    border-radius: 8px;
+    color: white;
+  
+    h3 {
+      font-size: 1.5rem;
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+  
+      li {
+        margin: 0.5rem 0;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        &:before {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,126 @@
+<div class="interrogator-content">
+    <p>
+      For this problem, we implemented a <strong>Contract Interrogator</strong> that takes a legal contract in
+      <code>.docx</code> format, and processes it to answer specific natural language questions. The process involved several key steps:
+    </p>
+  
+    <div class="step-section">
+      <h2>Step 1: Extracting Text from the Document 📄</h2>
+      <p>
+        The first step is parsing the <code>.docx</code> file to extract text. This is done using the <code>python-docx</code> library. Here's the code snippet:
+      </p>
+      <pre><code class="code-block">
+  def extract_text_from_docx(docx_file):
+      """Parse .docx file and return the extracted text."""
+      doc = docx.Document(docx_file)
+      text = ""
+      for paragraph in doc.paragraphs:
+          if paragraph.text.strip():
+              text += paragraph.text + "\n"
+      return text
+      </code></pre>
+      <p>This function reads each paragraph from the contract and appends the text to the final string.</p>
+    </div>
+  
+    <div class="step-section">
+      <h2>Step 2: Chunking the Text into Manageable Pieces 📚</h2>
+      <p>
+        Contracts can be long, so we need to break the document into smaller chunks for efficient processing. Here’s the chunking function:
+      </p>
+      <pre><code class="code-block">
+  def chunk_text(text, max_chunk_size=500):
+      words = text.split()
+      chunks = []
+      current_chunk = []
+      current_chunk_size = 0
+      for word in words:
+          current_chunk.append(word)
+          current_chunk_size += len(word) + 1  # +1 for space
+          if current_chunk_size >= max_chunk_size:
+              chunks.append(' '.join(current_chunk))
+              current_chunk = []
+              current_chunk_size = 0
+      if current_chunk:
+          chunks.append(' '.join(current_chunk))
+      return chunks
+      </code></pre>
+      <p>This function ensures that the text is split into chunks no larger than 500 characters.</p>
+    </div>
+  
+    <div class="step-section">
+      <h2>Step 3: Expanding the Query for Better Retrieval 🔍</h2>
+      <p>
+        To improve accuracy, we use query expansion with synonyms, which helps in better chunk retrieval. Here's how we expanded the query using the WordNet library:
+      </p>
+      <pre><code class="code-block">
+  def expand_query_with_synonyms(query):
+      """Expands query using synonyms."""
+      words = query.split()
+      expanded_words = []
+      for word in words:
+          synonyms = wordnet.synsets(word)
+          lemmas = set()
+          for syn in synonyms:
+              for lemma in syn.lemmas():
+                  lemmas.add(lemma.name())
+          expanded_words.append(f"({{ '{' }}word{{ '}' }}' '.join(lemmas){{ '}' }})")
+      return ' '.join(expanded_words)
+      </code></pre>
+      <p>
+        This method makes the question more robust by including synonyms, which improves the retrieval of relevant chunks.
+      </p>
+    </div>
+  
+    <div class="step-section">
+      <h2>Step 4: Retrieving Relevant Chunks and Generating an Answer 🤖</h2>
+      <p>
+        The next step is to retrieve the most relevant chunks based on the expanded query. Using <code>TF-IDF</code> and cosine similarity, we determine which chunks are most relevant:
+      </p>
+      <pre><code class="code-block">
+  def retrieve_relevant_chunks(query, chunks, top_k=3):
+      from sklearn.feature_extraction.text import TfidfVectorizer
+      from sklearn.metrics.pairwise import cosine_similarity
+  
+      expanded_query = expand_query_with_synonyms(query)
+      corpus = [expanded_query] + chunks
+      vectorizer = TfidfVectorizer().fit_transform(corpus)
+      similarities = cosine_similarity(vectorizer[0:1], vectorizer[1:]).flatten()
+      top_k_indices = similarities.argsort()[-top_k:][::-1]
+      return [chunks[i] for i in top_k_indices]
+      </code></pre>
+      <p>
+        The most relevant chunks are then passed to OpenAI’s GPT model to generate an answer.
+      </p>
+    </div>
+  
+    <div class="step-section">
+      <h2>Final Output: Generating the Answer 💡</h2>
+      <p>
+        The retrieved chunks are sent to the language model to generate the final answer. Here's how we do it:
+      </p>
+      <pre><code class="code-block">
+  def generate_answer(query, relevant_chunks):
+      context = "\n".join(relevant_chunks)
+      prompt = f"Context: {{ '{' }}context{{ '}' }}\n\nQuestion: {{ '{' }}query{{ '}' }}\nAnswer:"
+      response = openai.Completion.create(
+          engine="text-davinci-003",
+          prompt=prompt,
+          max_tokens=150,
+          temperature=0.2
+      )
+      return response.choices[0].text.strip()
+      </code></pre>
+      <p>We use a low temperature to reduce hallucinations, ensuring the model sticks to the facts provided in the contract.</p>
+    </div>
+  
+    <div class="final-summary">
+      <h3>Summary</h3>
+      <ul>
+        <li>✅ Extracts text from <code>.docx</code> contracts</li>
+        <li>✅ Breaks down large documents into manageable chunks</li>
+        <li>✅ Expands the query for improved retrieval using synonyms</li>
+        <li>✅ Retrieves the most relevant chunks using <code>TF-IDF</code></li>
+        <li>✅ Generates precise answers using OpenAI language model's Completion API </li>
+      </ul>
+    </div>
+</div>
