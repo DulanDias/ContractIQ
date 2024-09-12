@@ -114,7 +114,7 @@
         border-radius: 25px;
         border: 1px solid #ccc;
         margin-right: 1rem;
-        width: 60%;
+        width: 50%;
         font-size: 1rem;
         outline: none;
         transition: border-color 0.3s ease;
@@ -132,9 +132,17 @@
         border: none;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        margin-right: 0.5rem;
   
         &:hover {
           background-color: var(--vivid-pink);
+        }
+      }
+  
+      .clear-btn {
+        background-color: #ff6f61; /* Clear button with a different color */
+        &:hover {
+          background-color: #e64a19;
         }
       }
     }
@@ -156,5 +164,3 @@
       }
     }
   }
-  
-  

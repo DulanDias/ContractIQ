@@ -60,4 +60,11 @@ export class InterrogatorComponent {
       alert('Please upload a file and enter a query.');
     }
   }
+
+  onClear(): void {
+    // Clear the file input, query, and result
+    this.selectedFile = null;
+    this.query = '';
+    this.result = null;
+  }
 }

@@ -18,6 +18,7 @@
     <div class="query-input">
       <input type="text" [(ngModel)]="query" placeholder="Enter your question here..." />
       <button (click)="onSubmit()">Submit</button>
+      <button (click)="onClear()" class="clear-btn">Clear</button> <!-- Clear Button -->
     </div>
   
     <!-- Show the result after the backend response -->
@@ -26,6 +27,7 @@
       <p>{{ result }}</p>
     </div>
   </div>
+  
   
 
 <div class="interrogator-content">
