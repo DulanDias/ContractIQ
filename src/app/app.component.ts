@@ -41,6 +41,8 @@ export class AppComponent {
         }
       },
       error => {
+        this.username = "";
+        this.password = "";
         alert('Invalid credentials!');
         console.error('Login failed', error);
       }
@@ -51,6 +53,8 @@ export class AppComponent {
     // Use AuthService to log out
     this.authService.logout();
     this.isAuthenticated = false;
+    this.username = "";
+    this.password = "";
     localStorage.removeItem('token'); // Clear the token from localStorage
     localStorage.removeItem('isAuthenticated'); // Clear authentication status
     this.router.navigate(['/']); // Navigate back to login after logout
