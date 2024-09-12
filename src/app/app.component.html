@@ -2,24 +2,25 @@
   <div class="content">
     <div class="left-side">
       <h1>Hello, <span class="app-title">{{ title }}</span></h1>
-      <p>– where your contracts get smarter, faster, and legally sharper!</p>
+      <p>– where your contracts get smarter, faster, and legally sharper! 🔥💼</p>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
       <!-- Show login form if not authenticated -->
-      <div *ngIf="!isAuthenticated">
-        <form (submit)="onLogin()">
-          <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" [(ngModel)]="username" name="username" required>
+      <div *ngIf="!isAuthenticated" class="login-container">
+        <form class="login-form" (submit)="onLogin()">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" [(ngModel)]="username" name="username" required />
           </div>
-          <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" [(ngModel)]="password" name="password" required>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" [(ngModel)]="password" name="password" required />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" class="pill login-button">Login</button>
         </form>
       </div>
+      
 
       <!-- Show buttons after successful login -->
       <div *ngIf="isAuthenticated" class="pill-group">
