@@ -96,4 +96,4 @@ def generate_answer(query, relevant_chunks):
     )
 
     # Return the model's answer
-    return response['choices'][0]['message']['content'].strip()
+    return response.choices[0].message.content
