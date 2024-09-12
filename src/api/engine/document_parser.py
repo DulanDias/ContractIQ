@@ -10,6 +10,10 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 def extract_text_from_docx(docx_file):
-    """Extracts text from a DOCX file."""
+    """Parse .docx file and return the extracted text."""
     doc = docx.Document(docx_file)
-    return "\n".join([para.text for para in doc.paragraphs])
+    text = ""
+    for paragraph in doc.paragraphs:
+        if paragraph.text.strip():
+            text += paragraph.text + "\n"
+    return text
