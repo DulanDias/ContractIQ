@@ -61,7 +61,16 @@
       </div>
     </div>
   </div>
+  
 </main>
+
+<div class="button-row">
+  <a class="pill-button" [routerLink]="['/']" [class.active]="isActive('')">Documentation 📄</a>
+  <a class="pill-button" [routerLink]="['/interrogator']" [class.active]="isActive('interrogator')" [class.disabled]="!isAuthenticated">Interrogator ❓</a>
+  <a class="pill-button" [routerLink]="['/extractor']" [class.active]="isActive('extractor')" [class.disabled]="!isAuthenticated">Extractor 📝</a>
+</div>
+
+
 
 <router-outlet></router-outlet>
 
