@@ -15,7 +15,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 # User database simulation
 fake_users_db = {
     "testuser": {
-        "username": "testuser",
+        "username": "admin",
         "full_name": "Test User",
         "email": "testuser@example.com",
         "hashed_password": "$2b$12$somethinghashedhere",
