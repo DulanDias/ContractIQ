@@ -43,3 +43,62 @@
     color: #6200ea;
   }
   
+  .pill-button {
+    flex: 1; /* Make buttons equal width */
+    text-align: center; /* Center the button text */
+    padding: 0.75rem 1rem;
+    border-radius: 50px; /* Pill shape */
+    font-size: 1rem;
+    font-weight: 500;
+    color: black; /* Default text color is black */
+    background-color: white; /* Default fill color is white */
+    border: 2px solid transparent; /* Start with no visible border */
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image: linear-gradient(white, white), linear-gradient(
+      90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    ); /* Gradient border */
+    text-decoration: none; /* Remove underline */
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+  
+    /* Hover effect */
+    &:hover {
+      background-image: linear-gradient(white, white), linear-gradient(
+        90deg,
+        var(--electric-violet) 0%,
+        var(--vivid-pink) 50%,
+        var(--orange-red) 100%
+      ); /* Gradient border remains on hover */
+      color: black; /* Keep text black on hover */
+    }
+  
+    /* Active/Current state */
+    &.active {
+      background: linear-gradient(
+        90deg,
+        var(--orange-red) 0%,
+        var(--vivid-pink) 50%,
+        var(--electric-violet) 100%
+      ); /* Fill background with gradient */
+      color: white; /* White text in active state */
+      border: none; /* No border in active state */
+    }
+  
+    /* Disabled state */
+    &.disabled {
+      background: linear-gradient(
+        90deg,
+        gray 0%,
+        gray 50%,
+        gray 100%
+      ); /* Fill background with gradient */
+      color: white; /* White text in active state */
+      border: none; /* No border in active state */
+      cursor: not-allowed; /* Show unclickable cursor */
+      pointer-events: none; /* Disable pointer events */
+    }
+  }
