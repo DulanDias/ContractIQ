@@ -1,22 +1,30 @@
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from engine.info_extraction import generate_extraction
 from engine.chunking_processor import chunk_text, generate_answer, retrieve_relevant_chunks
-from engine.document_parser import extract_text_from_docx
+from engine.document_parser import extract_text_from_docx, extract_text_from_pdf
 from auth import get_current_user
 # from engine import extract_information, interrogate_contract
 
 router = APIRouter()
 
 @router.post("/extract")
-async def extract_contract_info(file: bytes, user: dict = Depends(get_current_user)):
+async def extract_contract_info(file: UploadFile = File(...), user: dict = Depends(get_current_user)):
     """
     Extract key information like the effective date, governing law, and parties from a contract.
     """
     try:
-        # extracted_data = extract_information(file)
-        extracted_data = "test"
+        # Step 1: Extract the text from the uploaded PDF file
+        pdf_content = extract_text_from_pdf(file.file)
+
+        # Step 2: Send a single query to OpenAI to extract the required information
+        extracted_data = generate_extraction(pdf_content)
+
+        # Return the extracted data
         return {"status": "success", "data": extracted_data}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error extracting contract: {e}")
+
 
 @router.post("/interrogate")
 async def interrogate_contract_endpoint(

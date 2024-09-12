@@ -1,1 +1,106 @@
-<p>extractor works!</p>
+<div class="extractor-upload-container">
+    <h2>Upload Your Contract PDF and Extract Key Information 📄🤖</h2>
+  
+    <!-- Loading overlay -->
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  
+    <!-- Drag and Drop area for uploading a PDF file -->
+    <div
+      class="file-drop-area"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+      [class.dragover]="isDragging"
+    >
+      <p *ngIf="!selectedFile">Drag & Drop your PDF file here or <label for="fileInput" class="upload-label">browse</label></p>
+      <p *ngIf="selectedFile">{{ selectedFile.name }}</p>
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden />
+    </div>
+  
+    <!-- Submit and Clear buttons -->
+    <div class="query-input">
+      <button (click)="onSubmit()">Submit</button>
+      <button (click)="onClear()" class="clear-btn">Clear</button>
+    </div>
+  
+    <!-- Show the result after the backend response -->
+    <div *ngIf="result" class="result-section">
+      <h3>Extracted Information:</h3>
+      <p>{{ result }}</p>
+    </div>
+  </div>
+  
+  <div class="extractor-content">
+    <h2>Overview of the Extraction Process</h2>
+    <p>
+      The goal of this task is to extract specific information such as the effective date, governing law, and parties involved in a contract from a <code>PDF</code> file. Below is a detailed description of the steps we followed.
+    </p>
+  
+    <div class="step-section">
+      <h2>Step 1: Extracting Text from the PDF 📄</h2>
+      <p>
+        We begin by parsing the uploaded <code>PDF</code> file to extract the raw text. We utilize the <code>PyMuPDF</code> library, which provides efficient methods for extracting text from each page of the PDF. Here’s the code:
+      </p>
+      <pre><code class="code-block">
+  def extract_text_from_pdf(pdf_file):
+      """Extracts text from a PDF file."""
+      doc = fitz.open(pdf_file)
+      text = ""
+      for page in doc:
+          text += page.get_text()
+      return text
+      </code></pre>
+    </div>
+  
+    <div class="step-section">
+      <h2>Step 2: Querying for Key Information 🔍</h2>
+      <p>
+        After extracting the text, we proceed to query the document for key contract details: the effective date, governing law, and involved parties. We use OpenAI's GPT model to answer specific queries:
+      </p>
+      <pre><code class="code-block">
+        def generate_extraction(context):
+        """
+        Send a single prompt to OpenAI to extract multiple pieces of information
+        (Effective Date, Governing Law, Parties Involved) from the contract text.
+        """
+        # Construct a single prompt with all the required questions
+        prompt = f"""
+        You are a legal assistant. From the contract provided, extract the following information:
+    
+        1. What is the effective date of the contract?
+        2. What is the governing law of the contract?
+        3. Who are the parties involved in the contract?
+    
+        Context:
+        {{ '{' }}context{{ '}' }}
+        """
+    
+        # Use OpenAI's GPT-3.5-turbo model to process the request
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {{ '{' }}"role": "system", "content": "You are a helpful legal assistant."{{ '}' }},
+                {{ '{' }}"role": "user", "content": prompt{{ '}' }}
+            ],
+            max_tokens=500,  # Adjust based on expected response length
+            temperature=0.2  # Lower temperature to reduce hallucinations
+        )
+    
+        # Extract and return the generated response
+        return response.choices[0].message.content
+      </code></pre>
+      <p>We send the contract text as context to the GPT model and ask it specific questions about the contract.</p>
+    </div>
+  
+    <div class="final-summary">
+      <h3>Summary</h3>
+      <ul>
+        <li>✅ Extracts text from PDF contracts efficiently using <code>PyMuPDF</code></li>
+        <li>✅ Queries the document for key information using OpenAI's GPT model</li>
+      </ul>
+    </div>
+  </div>
+  
