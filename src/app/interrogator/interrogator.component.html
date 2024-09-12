@@ -10,7 +10,7 @@
       [class.dragover]="isDragging"
     >
       <p *ngIf="!selectedFile">Drag & Drop your .docx file here or <label for="fileInput" class="upload-label">browse</label></p>
-      <p *ngIf="selectedFile">{{ selectedFile?.name }}</p>
+      <p *ngIf="selectedFile">{{ selectedFile.name }}</p>
       <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden />
     </div>
   
