@@ -14,7 +14,7 @@ The platform leverages FastAPI for the backend and Angular for the frontend, whi
 - Chunking, query expansion, and hybrid dense + sparse search to improve accuracy.
   
 ## Technologies Used
-- **Frontend**: Angular (with Material design)
+- **Frontend**: Angular (with SCSS)
 - **Backend**: FastAPI (Python)
 - **AI/ML**: OpenAI GPT-3.5 for legal document interrogation
 - **Deployment**: NGINX, Uvicorn, Systemd, AWS EC2
