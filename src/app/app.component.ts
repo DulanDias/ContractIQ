@@ -17,8 +17,8 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'ContractIQ';
   isAuthenticated = false; // Track if the user is logged in
-  username = '';
-  password = '';
+  username = 'admin';
+  password = 'root';
 
   constructor(private router: Router) {}
 

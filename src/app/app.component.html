@@ -4,35 +4,59 @@
       <h1>Hello 👋 from <span class="app-title">{{ title }}</span></h1>
       <p>– where your contracts get smarter, faster, and legally sharper! 🔥💼</p>
     </div>
-    
+
     <div class="divider" role="separator" aria-label="Divider"></div>
     
     <div class="right-side">
       <!-- Show login form if not authenticated -->
       <div *ngIf="!isAuthenticated" class="login-container">
-        <div class="login-card">
-          <form (submit)="onLogin()" autocomplete="off">
-            <div class="form-group">
-              <input class="pill-input" type="text" placeholder="Username" [(ngModel)]="username" name="username" autocomplete="off" required />
-            </div>
-            
-            <div class="form-group">
-              <input class="pill-input" type="password" placeholder="Password" [(ngModel)]="password" name="password" autocomplete="off" required />
-            </div>
-            
-
-            <!-- Login button with pill styling -->
-            <button  class="pill" type="submit">
-              Sign In 🔓
-            </button>
-          </form>
+  <div class="login-card">
+    <form (submit)="onLogin()" autocomplete="off">
+      <!-- Username Field -->
+      <div class="form-group">
+        <div class="input-container">
+          <i class="fas fa-user"></i> <!-- Login Icon -->
+          <input
+            class="pill-input"
+            type="text"
+            placeholder="Username"
+            [(ngModel)]="username"
+            name="username"
+            autocomplete="off"
+            required
+          />
         </div>
       </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <div class="input-container">
+          <i class="fas fa-lock"></i> <!-- Password Icon -->
+          <input
+            class="pill-input"
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+            name="password"
+            autocomplete="off"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Login button with pill styling -->
+      <button class="pill login-button" type="submit">
+        Sign In 🔓
+      </button>
+    </form>
+  </div>
+</div>
+
       
 
       <!-- Show logout and tool selector after successful login -->
       <div *ngIf="isAuthenticated" class="authenticated-section">
-        <button mat-raised-button class="pill logout-button" (click)="onLogout()">Sign Out</button>
+        <button class="pill logout-button" (click)="onLogout()">Sign Out</button>
         
       </div>
     </div>
