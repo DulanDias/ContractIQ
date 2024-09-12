@@ -29,8 +29,8 @@ async def interrogate_contract_endpoint(
     """
     try:
         # Step 1: Extract text from the .docx file
-        docx_content = await file.read()  # Read the file as bytes
-        document_text = extract_text_from_docx(docx_content)
+        # Use the file-like object and pass it directly to the docx parser
+        document_text = extract_text_from_docx(file.file)  # Use file.file, not raw bytes
         
         # Step 2: Chunk the document text
         chunks = chunk_text(document_text)

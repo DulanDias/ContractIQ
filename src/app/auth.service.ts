@@ -39,7 +39,7 @@ export class AuthService {
         map((response: any) => {
           if (response && response.access_token) {
             // Store the token in localStorage
-            localStorage.setItem('token', response.access_token);
+            localStorage.setItem('authToken', response.access_token);
             this.tokenSubject.next(response.access_token);
           }
           return response;
@@ -47,9 +47,19 @@ export class AuthService {
       );
   }
 
+  // Store token in localStorage
+  setToken(token: string): void {
+    localStorage.setItem('authToken', token);
+  }
+
+  // Retrieve token from localStorage
+  getToken(): string | null {
+    return localStorage.getItem('authToken');
+  }
+
   // Logout method to clear token
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
     this.tokenSubject.next(null);
   }
 }

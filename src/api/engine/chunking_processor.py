@@ -2,17 +2,31 @@ import nltk
 from nltk.corpus import wordnet
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
-
 nltk.download('wordnet')
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-import openai
 import os
-openai.api_key = os.getenv("OPENAI_API_KEY")
+
+from openai import OpenAI
+
+# Load environment variables from a .env file in the current directory
+load_dotenv(dotenv_path='.env')
+
+# Fetch the OpenAI API key from the environment
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if OPENAI_API_KEY:
+    print(f"API Key Loaded: {OPENAI_API_KEY}")  # For debugging, remove in production
+else:
+    print("Error: OPENAI_API_KEY not found")
+
+client = OpenAI(
+organization='org-lBcuIkpGwhG47FRFOKorbga3',
+project='proj_JNFM7PFGkbZgg5rsMJjOQYjD',
+api_key = OPENAI_API_KEY
+)
 
 def chunk_text(text, max_chunk_size=500):
     words = text.split()
@@ -48,7 +62,7 @@ def retrieve_relevant_chunks(query, chunks, top_k=3):
     Retrieve the top K most relevant chunks for the given query using TF-IDF and cosine similarity.
     """
     # Query expansion for better retrieval
-    expanded_query = query_expansion(query)
+    expanded_query = expand_query_with_synonyms(query)
     
     # Combine query and chunks into a corpus
     corpus = [expanded_query] + chunks
@@ -71,17 +85,20 @@ def generate_answer(query, relevant_chunks):
     """
     # Combine the relevant chunks into a single context
     context = "\n".join(relevant_chunks)
-    
+
     # Construct the prompt with the question and context
     prompt = f"Context: {context}\n\nQuestion: {query}\nAnswer:"
-    
-    # Generate the answer using OpenAI's GPT
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
+
+    # Use the latest API format
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo", 
+        messages=[
+            {"role": "system", "content": "You are a helpful legal assistant."},
+            {"role": "user", "content": prompt}
+        ],
         max_tokens=150,
         temperature=0.2,  # Lower temperature to reduce hallucinations
     )
-    
+
     # Return the model's answer
-    return response.choices[0].text.strip()
+    return response['choices'][0]['message']['content'].strip()
