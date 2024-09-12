@@ -1,7 +1,8 @@
+from datetime import timedelta
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from endpoints import contracts
-from auth import ACCESS_TOKEN_EXPIRE_MINUTES, Token, oauth2_scheme, create_access_token
+from auth import ACCESS_TOKEN_EXPIRE_MINUTES, Token, fake_users_db, create_access_token, verify_password
 from fastapi.security import OAuth2PasswordRequestForm
 
 app = FastAPI()
