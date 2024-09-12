@@ -1,5 +1,9 @@
 import nltk
 from nltk.corpus import wordnet
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 nltk.download('wordnet')
 
@@ -7,7 +11,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 import openai
-openai.api_key = "your_openai_api_key"
+import os
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def chunk_text(text, max_chunk_size=500):
     words = text.split()

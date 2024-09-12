@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-interrogator',
   standalone: true, 
-  template: `<h2>Interrogator Component</h2>`,
+  templateUrl: './interrogator.component.html',
+  styleUrls: ['./interrogator.component.scss'],
 })
 export class InterrogatorComponent {}
