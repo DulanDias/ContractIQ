@@ -3,24 +3,42 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from pydantic import BaseModel
 from datetime import datetime, timedelta
+from passlib.context import CryptContext
 
 # Secret key to encode and decode JWTs (should be kept secret)
 SECRET_KEY = "contract-iq"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+# Password hashing context
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 # OAuth2 scheme for token authentication
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # User database simulation
 fake_users_db = {
-    "testuser": {
+    "admin": {
         "username": "admin",
+        "full_name": "Admin User",
+        "email": "admin@example.com",
+        "hashed_password": pwd_context.hash("root"),  # Hashed "root"
+        "disabled": False,
+    },
+    "testuser": {
+        "username": "testuser",
         "full_name": "Test User",
         "email": "testuser@example.com",
-        "hashed_password": "$2b$12$somethinghashedhere",
+        "hashed_password": pwd_context.hash("test123"),  # Hashed "test123"
         "disabled": False,
-    }
+    },
+    "alice": {
+        "username": "alice",
+        "full_name": "Alice Doe",
+        "email": "alice@example.com",
+        "hashed_password": pwd_context.hash("password"),
+        "disabled": False,
+    },
 }
 
 # Pydantic models for users and tokens
@@ -60,11 +78,17 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
     return user
 
+# Fetch user from the fake database
 def get_user(db, username: str):
     if username in db:
         user_dict = db[username]
         return UserInDB(**user_dict)
 
+# Verify if the given password matches the stored hashed password
+def verify_password(plain_password: str, hashed_password: str):
+    return pwd_context.verify(plain_password, hashed_password)
+
+# Create a JWT access token
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
@@ -73,3 +97,12 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+# Authentication function to verify username and password
+def authenticate_user(fake_db, username: str, password: str):
+    user = get_user(fake_db, username)
+    if not user:
+        return False
+    if not verify_password(password, user.hashed_password):
+        return False
+    return user
