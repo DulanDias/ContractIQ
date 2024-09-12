@@ -17,11 +17,6 @@ load_dotenv(dotenv_path='.env')
 # Fetch the OpenAI API key from the environment
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-if OPENAI_API_KEY:
-    print(f"API Key Loaded: {OPENAI_API_KEY}")  # For debugging, remove in production
-else:
-    print("Error: OPENAI_API_KEY not found")
-
 client = OpenAI(
 organization='org-lBcuIkpGwhG47FRFOKorbga3',
 project='proj_JNFM7PFGkbZgg5rsMJjOQYjD',
