@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from endpoints import contracts
-from auth import Token, oauth2_scheme, create_access_token
+from auth import ACCESS_TOKEN_EXPIRE_MINUTES, Token, oauth2_scheme, create_access_token
 from fastapi.security import OAuth2PasswordRequestForm
 
 app = FastAPI()

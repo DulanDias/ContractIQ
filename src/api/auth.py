@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 
 # Secret key to encode and decode JWTs (should be kept secret)
-SECRET_KEY = "your-secret-key-here"
+SECRET_KEY = "contract-iq"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

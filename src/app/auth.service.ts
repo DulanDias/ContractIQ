@@ -52,33 +52,4 @@ export class AuthService {
     localStorage.removeItem('token');
     this.tokenSubject.next(null);
   }
-
-  // Method to extract contract information
-  extractContract(file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.tokenValue}`,
-    });
-
-    return this.http.post(`${this.apiUrl}/contracts/extract`, formData, {
-      headers,
-    });
-  }
-
-  // Method to interrogate a contract
-  interrogateContract(file: File, query: string): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('query', query);
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.tokenValue}`,
-    });
-
-    return this.http.post(`${this.apiUrl}/contracts/interrogate`, formData, {
-      headers,
-    });
-  }
 }
